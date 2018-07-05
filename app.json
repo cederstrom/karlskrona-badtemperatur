@@ -4,6 +4,7 @@
     "icon": "./icon.png",
     "description":
       "Visa aktuella badtemperaturer vid stränderna i Karlskrona kommun.",
+    "githubUrl": "https://github.com/cederstrom/karlskrona-badtemperatur",
     "version": "1.0.0",
     "slug": "badtemperatur-i-karlskrona",
     "privacy": "public",
