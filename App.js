@@ -1,22 +1,22 @@
-import React from "react";
+import React, { Component } from "react";
 import {
-  FlatList,
   ActivityIndicator,
-  StyleSheet,
-  Text,
   View,
   ScrollView,
   RefreshControl,
-  Linking
+  StyleSheet
 } from "react-native";
-import { Card, Header } from "react-native-elements";
 import moment from "moment/min/moment-with-locales";
+import "moment/locale/sv";
+import Footer from "./components/Footer";
+import BouyCard from "./components/BouyCard";
+import Header from "./components/Header";
 
-export default class FetchExample extends React.Component {
+export default class FetchExample extends Component {
   constructor(props) {
     super(props);
     this.state = { isLoading: true };
-    moment.locale("sv-SE");
+    moment.locale("sv");
   }
 
   componentDidMount() {
@@ -26,7 +26,7 @@ export default class FetchExample extends React.Component {
         this.setState(
           {
             isLoading: false,
-            dataSource: responseJson.sort(this.bouySort)
+            dataSource: responseJson.sort(this._bouySort)
           },
           function() {}
         );
@@ -36,13 +36,13 @@ export default class FetchExample extends React.Component {
       });
   }
 
-  bouySort(a, b) {
+  _bouySort(a, b) {
     if (a.name < b.name) return -1;
     if (a.name > b.name) return 1;
     return 0;
   }
 
-  onRefresh = () => {
+  _onRefresh = () => {
     this.componentDidMount();
   };
 
@@ -57,51 +57,20 @@ export default class FetchExample extends React.Component {
 
     return (
       <View style={{ flex: 1, paddingTop: 20 }}>
-        <Header
-          centerComponent={{
-            text: "Badtemperaturer i Karlskrona kommun",
-            style: { color: "#fff" }
-          }}
-        />
+        <Header />
         <ScrollView
           contentContainerStyle={{ paddingBottom: 20 }}
           refreshControl={
             <RefreshControl
               refreshing={this.state.isLoading}
-              onRefresh={this.onRefresh}
+              onRefresh={this._onRefresh}
             />
           }
         >
           {this.state.dataSource.map((item, i) => (
-            <Card key={i}>
-              <Text h1 style={{ fontWeight: "bold", fontSize: 20 }}>
-                {item.name}
-              </Text>
-              <Text style={{ fontWeight: "bold", fontSize: 40 }}>
-                {Math.round(item.temperature)}°C
-              </Text>
-              <Text style={{ color: "gray", fontSize: 10 }}>
-                Uppdaterad {moment(new Date(item.time)).fromNow()}
-              </Text>
-            </Card>
+            <BouyCard key={i} item={item} />
           ))}
-          <Text
-            style={{
-              textAlign: "center",
-              color: "gray",
-              paddingTop: 20,
-              padding: 15
-            }}
-          >
-            Byggd av Andreas Cederström med data från Karlskrona kommun och All
-            Binary. Mer info på{" "}
-            <Text
-              style={{ color: "blue" }}
-              onPress={() => Linking.openURL("https://buoy.ioe.allbin.se")}
-            >
-              https://buoy.ioe.allbin.se
-            </Text>
-          </Text>
+          <Footer />
         </ScrollView>
       </View>
     );
@@ -109,10 +78,7 @@ export default class FetchExample extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+  link: {
+    color: "blue"
   }
 });
