@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "Badtemperatur i Karlskrona",
+    "icon": "./icon.png",
+    "description":
+      "Visa aktuella badtemperaturer vid stränderna i Karlskrona kommun.",
+    "version": "1.0.0",
+    "slug": "badtemperatur-i-karlskrona",
+    "privacy": "public",
+    "sdkVersion": "27.0.0",
+    "android": {
+      "package": "com.cederstrom.badtemp"
+    }
   }
 }
